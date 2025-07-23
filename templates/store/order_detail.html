@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}Order #{{ order.id }} - eCommerce Store{% endblock %}
+
+{% block content %}
+<h1>Order #{{ order.id }}</h1>
+
+<div style="background: white; padding: 2rem; border-radius: 8px;">
+    <div style="margin-bottom: 2rem;">
+        <p><strong>Order Date:</strong> {{ order.created_at|date:"M d, Y H:i" }}</p>
+        <p><strong>Status:</strong> <span style="color: {% if order.status == 'delivered' %}green{% elif order.status == 'cancelled' %}red{% else %}orange{% endif %}">{{ order.get_status_display }}</span></p>
+        <p><strong>Total Amount:</strong> ${{ order.total_amount }}</p>
+    </div>
+    
+    <h3>Order Items</h3>
+    <div style="margin-top: 1rem;">
+        {% for item in order.orderitem_set.all %}
+            <div style="border-bottom: 1px solid #eee; padding: 1rem 0;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <h4>{{ item.product.name }}</h4>
+                        <p>Price: ${{ item.price }}</p>
+                        <p>Quantity: {{ item.quantity }}</p>
+                    </div>
+                    <div>
+                        <strong>${{ item.get_total_price }}</strong>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    
+    <div style="text-align: right; margin-top: 2rem; font-size: 1.2rem;">
+        <strong>Total: ${{ order.total_amount }}</strong>
+    </div>
+</div>
+
+<div style="margin-top: 2rem;">
+    <a href="{% url 'order_history' %}" class="btn btn-secondary">Back to Orders</a>
+</div>
+{% endblock %}

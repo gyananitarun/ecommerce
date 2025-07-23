@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}Login - eCommerce Store{% endblock %}
+
+{% block content %}
+<h1>Login</h1>
+
+<div style="max-width: 400px; margin: 0 auto; background: white; padding: 2rem; border-radius: 8px;">
+    <form method="post">
+        {% csrf_token %}
+        
+        <div style="margin-bottom: 1rem;">
+            <label for="{{ form.username.id_for_label }}">Username:</label>
+            {{ form.username }}
+        </div>
+        
+        <div style="margin-bottom: 1rem;">
+            <label for="{{ form.password.id_for_label }}">Password:</label>
+            {{ form.password }}
+        </div>
+        
+        <div style="margin-bottom: 1rem;">
+            <button type="submit" class="btn btn-primary" style="width: 100%;">Login</button>
+        </div>
+        
+        <div style="text-align: center;">
+            <p>Don't have an account? <a href="{% url 'register' %}">Register here</a></p>
+        </div>
+    </form>
+</div>
+{% endblock %}

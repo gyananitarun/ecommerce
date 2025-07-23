@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}Shopping Cart - eCommerce Store{% endblock %}
+
+{% block content %}
+<h1>Shopping Cart</h1>
+
+{% if cart_items %}
+    {% for item in cart_items %}
+        <div class="cart-item">
+            <div>
+                <h3>{{ item.product.name }}</h3>
+                <p>Price: ${{ item.product.price }}</p>
+            </div>
+            <div>
+                <form method="post" action="{% url 'update_cart' item.id %}" style="display: inline;">
+                    {% csrf_token %}
+                    <input type="number" name="quantity" value="{{ item.quantity }}" min="1" style="width: 60px;">
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </form>
+                <a href="{% url 'remove_from_cart' item.id %}" class="btn btn-danger">Remove</a>
+            </div>
+            <div>
+                <strong>${{ item.get_total_price }}</strong>
+            </div>
+        </div>
+    {% endfor %}
+    
+    <div class="cart-total">
+        <h2>Total: ${{ total }}</h2>
+        <a href="{% url 'checkout' %}" class="btn btn-success">Proceed to Checkout</a>
+    </div>
+{% else %}
+    <div style="background: white; padding: 2rem; border-radius: 8px; text-align: center;">
+        <p>Your cart is empty.</p>
+        <a href="{% url 'product_list' %}" class="btn btn-primary">Continue Shopping</a>
+    </div>
+{% endif %}
+{% endblock %}

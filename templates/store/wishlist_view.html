@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Wishlist - eCommerce Store{% endblock %}
+
+{% block content %}
+<h1>My Wishlist</h1>
+
+{% if wishlist_items %}
+    <div class="product-grid">
+        {% for item in wishlist_items %}
+            <div class="product-card">
+                {% if item.product.get_first_image %}
+                    <img src="{{ item.product.get_first_image }}" alt="{{ item.product.name }}" class="product-image">
+                {% else %}
+                    <div class="product-image" style="background-color: #eee; display: flex; align-items: center; justify-content: center;">
+                        No Image
+                    </div>
+                {% endif %}
+                <h3 class="product-title">{{ item.product.name }}</h3>
+                <p class="product-price">${{ item.product.price }}</p>
+                <p>Stock: {{ item.product.stock }}</p>
+                <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+                    <a href="{% url 'product_detail' item.product.slug %}" class="btn btn-primary">View Details</a>
+                    <a href="{% url 'remove_from_wishlist' item.product.id %}" class="btn btn-danger">Remove</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div style="background: white; padding: 2rem; border-radius: 8px; text-align: center;">
+        <p>Your wishlist is empty.</p>
+        <a href="{% url 'product_list' %}" class="btn btn-primary">Browse Products</a>
+    </div>
+{% endif %}
+{% endblock %}
