@@ -23,10 +23,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-nyon_%9@$9i&-4dbe(sw^i$3hj1^6udx=@m+%e1p3ete-^5q49'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['bizecommerce.azurewebsites.net', 'localhost', '127.0.0.1']
-
+# ALLOWED_HOSTS = ['bizecommerce.azurewebsites.net', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = []
 
 # Application definition
 
