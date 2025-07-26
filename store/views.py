@@ -95,16 +95,15 @@ def add_product(request):
         
     if request.method == 'POST':
         product_form = ProductForm(request.POST)
-        image_form = ProductImageForm(request.POST, request.FILES)
         
         if product_form.is_valid():
             product = product_form.save(commit=False)
             product.created_by = request.user
             product.save()
             
-            # Handle multiple images
-            for image in request.FILES.getlist('image'):
-                ProductImageForm({'image': image}).save(commit=False)
+            # Handle multiple images properly
+            images = request.FILES.getlist('image')
+            for image in images:
                 ProductImage.objects.create(product=product, image=image)
             
             messages.success(request, 'Product added successfully!')
